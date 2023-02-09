@@ -1,0 +1,52 @@
+public class maze {
+    public static void main (String[] unused) {
+        // reads the maze file
+        In maze;
+        maze = new In("maze.txt");
+        // using max variable to find how big the square maze is
+        int max = 0;
+        while (!maze.isEmpty()) {
+            String line = maze.readLine();
+            StdOut.println(line);
+            max++;
+        }
+        StdOut.println(max);
+        boolean[][] filled = new boolean[max][max];
+
+        for(int x=0; x<max; x++) {
+            String line = maze.readLine();
+            for(int y = 0; y<max; y++) {
+                if (line.charAt(y) == '#') {
+                    filled[x][y] = true;
+                }
+                else {
+                    filled[x][y] = false;
+                }
+            }
+        }
+        StdArrayIO.print(filled);
+
+        StdDraw.setXscale(0, max);
+        StdDraw.setYscale(0, max);
+
+        //draws the vertical lines
+        for (int x = 0; x < max; x++) {
+            for (int y = 0; y < max - 1; y++) {
+                if (filled[x][y] && filled[x][y+1]) {
+                    StdDraw.setPenColor(StdDraw.BLACK);
+                    StdDraw.line(x, y, x, y+1);
+                }
+            }
+        }
+
+        //draws the horizontal lines
+        for (int y = 0; y < max; y++) {
+            for (int x = 0; x < max - 1; x++) {
+                if (filled[x][y] && filled[x+1][y]) {
+                    StdDraw.setPenColor(StdDraw.BLACK);
+                    StdDraw.line(x, y, x+1, y);
+                }
+            }
+        }
+    }
+}
