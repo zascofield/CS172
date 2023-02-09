@@ -1,0 +1,36 @@
+public class maze {
+    public static void main (String[] args) {
+        // reads the maze file
+        In file;
+        file = new In("maze.txt");
+        while (!file.isEmpty()) {
+            String line = file.readLine();
+            StdOut.println(line);
+        }
+
+        boolean[][] filled = new boolean[10][10];
+        
+        StdDraw.setXscale(0, 10);
+        StdDraw.setYscale(0, 10);
+
+        //draws the vertical lines
+        for (int x = 0; x < 10; x++) {
+            for (int y = 0; y < 9; y++) {
+                if (filled[x][y] == '#' && filled[x][y+1] == '#') {
+                    StdDraw.setPenColor(StdDraw.BLACK);
+                    StdDraw.line(x, y, x, y+1);
+                }
+            }
+        }
+
+        //draws the horizontal lines
+        for (int y = 0; y < 10; y++) {
+            for (int x = 0; x < 9; x++) {
+                if (filled[x][y] == '#' && filled[x+1][y] == '#') {
+                    StdDraw.setPenColor(StdDraw.BLACK);
+                    StdDraw.line(x, y, x+1, y);
+                }
+            }
+        }
+    }
+}
