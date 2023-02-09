@@ -1,0 +1,62 @@
+import java.util.Arrays;
+
+public class maze {
+
+        public static void main(String[] unused) {
+
+         // Scan maze.txt and convert into a boolean array
+            In maze;
+            boolean[][] filled = new boolean[11][11];
+            maze = new In("maze.txt");
+            for(int y=0; y<11; y++) {
+                String line = maze.readLine();
+                for(int x = 0; x<11; x++) {
+                    if (line.charAt(x) == '#') {
+                        filled[x][y] = true;
+                    }
+                    else {
+                        filled[x][y] = false;
+                    }
+                }
+            }
+
+
+
+
+            StdArrayIO.print(filled);
+        }
+
+//                String line = maze.readLine();
+//                for (int i=0; i<line.length(); i++) {
+//                    if (line.charAt(i)>0) {
+//                        filled[i][h] = true;
+//                    }
+//
+//                }
+//                h++;
+//            }
+
+
+//            while (!maze.isEmpty()) {
+//                String line = maze.readLine();
+//                for (int i=0; i<line.length(); i++) {
+//                    if (line.charAt(i)>0) {
+//                        filled[i][h] = true;
+//                    }
+//
+//                }
+//                h++;
+//            }
+
+
+
+            //Scan and draw horizonal lines
+
+
+            //Scan and draw vertical lines
+
+
+
+
+
+}
