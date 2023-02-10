@@ -1,0 +1,48 @@
+import java.awt.geom.AffineTransform;
+public class maze {
+    public static void main (String[] unused) {
+        // reads the maze file
+        In maze;
+        maze = new In("maze.txt");
+        // using max variable to find how big the square maze is
+        String mazeL= maze.toString();
+        int max = mazeL.length();
+        StdOut.println(max);
+        boolean[][] filled = new boolean[max][max];
+        for(int x=max - 1; x>=0; x--) {
+            String line = maze.readLine();
+            for(int y = 0; y<max; y++) {
+                if (line.charAt(y) == '#') {
+                    filled[y][x] = true;
+                }
+                else {
+                    filled[y][x] = false;
+                }
+            }
+        }
+        StdArrayIO.print(filled);
+
+        StdDraw.setXscale(-0.1, max);
+        StdDraw.setYscale(-0.1, max);
+
+        //draws vertical lines
+        for (int x = 0; x < max; ++x) {
+            for (int y = max - 2; y >= 0; --y) {
+                if (filled[x][y] && filled[x][y+1]) {
+                    StdDraw.setPenColor(StdDraw.BLACK);
+                    StdDraw.line(x, y, x, y+1);
+                }
+            }
+        }
+
+        //draws the horizontal lines
+        for (int x = 0; x <= max - 2; ++x) {
+            for (int y = max - 1; y >= 0; --y) {
+                if (filled[x][y] && filled[x+1][y]) {
+                    StdDraw.setPenColor(StdDraw.BLACK);
+                    StdDraw.line(x, y, x+1 , y);
+                }
+            }
+        }
+    }
+}
