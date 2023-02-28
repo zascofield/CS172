@@ -1,0 +1,38 @@
+  public static void drawGrid(int[][] grid) {
+        StdDraw.clear();
+        for (int i = 0; i < grid.length; ++i) {
+            for (int j = 0; j < grid[0].length; ++j) {
+                if (grid[i][j] == 0) {
+                    fillEmpty(i, j);
+                }
+                ;
+                if (grid[i][j] == 1) {
+                    fillBlueAgent(i, j);
+
+                }
+                if (grid[i][j] == 2) {
+                    fillRedAgent(i, j);
+                }
+            }
+        }
+    }
+     public static void initGrid(int grid[][]) {
+        for (int i = 0; i < grid.length; ++i) {
+            for (int j = 0; j < grid[0].length; ++j) {
+                int rand = StdRandom.uniformInt(1, 100);
+                int x = StdRandom.uniformInt(grid.length);
+                int y = StdRandom.uniformInt(grid.length);
+                //white squares
+                if (rand<=10) {
+                    grid[x][y] = 0;
+                }
+                if (55 >= rand && rand >= 10) {
+                    grid[x][y] = 1;
+                }
+                if (100 >= rand && rand >= 55) {
+                    grid[x][y] = 2;
+                }
+
+            }
+        }
+    }
