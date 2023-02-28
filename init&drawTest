@@ -1,0 +1,32 @@
+import org.junit.jupiter.api.Test;
+
+class SegregationTest {
+
+; @org.junit.jupiter.api.Test
+    void initGrid() {
+
+        int [][] grid = {
+                { 0,  0, 0 },
+                { 0, 0, 0 },
+                { 0, 0, 0 }
+        };
+        Segregation.initGrid(grid);
+        StdArrayIO.print(grid);
+    }
+
+    @Test
+    void drawGrid() {
+
+        int [][] grid = {
+                { 1,  2, 0 },
+                { 1, 2, 0 },
+                { 1, 0, 2 }
+        };
+        StdDraw.setXscale(0, grid.length);
+        StdDraw.setYscale(0, grid.length);
+
+        Segregation.drawGrid(grid);
+        StdArrayIO.print(grid);
+
+    }
+}
