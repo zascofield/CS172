@@ -1,0 +1,19 @@
+    void testMiddleSquareFalse() {
+        int[][] grid = {
+            {2, 2, 1},
+            {2, 1, 1},
+            {2, 2, 0}
+        };
+        assertFalse(Segregation.testMiddleSquare(grid));
+    }
+
+    @Test
+    void testMiddleSquareTrue() {
+        int[][] grid = {
+                {2, 1, 0},
+                {1, 1, 1},
+                {2, 1, 0}
+        };
+        assertTrue(Segregation.testMiddleSquare(grid));
+    }
+}
