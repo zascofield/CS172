@@ -1,0 +1,98 @@
+public class Segregation {
+    // used to fill in blue squares
+    static int fillBlueAgent (double x, double y) {
+        StdDraw.setPenColor(StdDraw.BLUE);
+        StdDraw.filledSquare (x + 0.5, y + 0.5, 0.5);
+        return 2;
+    }
+
+    //used to fill in red squares
+    static int fillRedAgent(double x, double y) {
+        StdDraw.setPenColor(StdDraw.RED);
+        StdDraw.filledSquare (x + 0.5, y + 0.5, 0.5);
+        return 1;
+    }
+
+    //used to fill in white empty squares
+    static int fillEmpty(double x, double y) {
+        StdDraw.setPenColor(StdDraw.WHITE);
+        StdDraw.filledSquare (x + 0.5, y + 0.5, 0.5);
+        return 0;
+    }
+
+
+    public static void main (String[] args) {
+        StdDraw.enableDoubleBuffering();
+        //the parameters that can be changed before each run
+        int pause = 40;
+        int size = 30;
+        double similar = 0.4;
+        double red = 0.5;
+        double empty = 0.1;
+        double blue = 1 - red - empty;
+
+        int test = 0;
+        boolean run = true;
+        double[][] grid = new double[size][size];
+        double[][] unsat = new double[size][size];
+        double[][] blank = new double [size][size];
+        int redtot = 0;
+        int bluetot = 0;
+        int emptytot;
+
+        //initializes the entire array
+        for (int i = 0; i < size; ++i) {
+            for (int n = 0; n < size; ++n) {
+                grid[i][n] = 0;
+                unsat[i][n] = 0;
+                blank[i][n] = 0;
+            }
+        }
+
+        int x = 0;
+        int y = 0;
+        StdDraw.setXscale(0, size);
+        StdDraw.setYscale(0, size);
+        StdDraw.setPenColor(StdDraw.BLACK);
+
+        //draws the vertical lines
+        for (int i = 0; i < size; ++i) {
+            StdDraw.line(i, 0, i, size);
+            ++x;
+        }
+
+        //draws the horizontal lines
+        for (int i = 0; i < size; ++i) {
+            StdDraw.line(0, i, size, i);
+            ++y;
+        }
+
+        //randomly fills in the red squares and counts the number of them
+        for (int i = 0; i < red * size * size; ++i) {
+            int randomx = StdRandom.uniform(0, 29);
+            int randomy = StdRandom.uniform(0, 29);
+            fillRedAgent(randomx, randomy);
+            grid[randomx][randomy] = 1;
+            ++redtot;
+        }
+
+        //randomly fills in the blue squares and counts the number of them
+        for (int n = 0; n < blue * size * size; ++n) {
+            int randomx = StdRandom.uniform(0, 30);
+            int randomy = StdRandom.uniform(0, 30);
+            if (grid[randomx][randomy] == 0) {
+                fillBlueAgent(randomx, randomy);
+                grid[randomx][randomy] = 2;
+                ++bluetot;
+            } else {
+                --n;
+            }
+        }
+        
+        //prints out the number of empty, red, and blue squares
+        StdDraw.show();
+        emptytot = (size * size) - (redtot + bluetot);
+        StdOut.println("Empty: " + emptytot);
+        StdOut.println("Red: " + redtot);
+        StdOut.println("Blue: " + bluetot);
+ }
