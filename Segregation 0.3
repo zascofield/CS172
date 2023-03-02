@@ -1,0 +1,192 @@
+public class Segregation {
+    public static boolean checkSquare(int[][] grid, int x, int y) {
+        double similar = 0;
+        double total = 0;
+        double satisfied = 0.3;
+        for (int x1 = x - 1; x1 <= x + 1; ++x1) {
+            for (int y1 = y - 1; y1 <= y + 1; ++y1) {
+                 if (x1 >= 0 && x1 < grid.length && y1 >= 0 && y1 < grid.length && (x1 != x || y1 != y)) {
+                    if (grid[x1][y1] == grid[x][y]) {
+                        ++similar;
+                    }
+                    if (grid[x1][y1]>0){++total;}
+                }
+            }
+        }
+        if ((similar / total ) >= satisfied) return true;
+        else return false;
+    }
+
+    // used to fill in blue squares
+    public static int fillBlueAgent(double x, double y) {
+        StdDraw.setPenColor(StdDraw.BLUE);
+        StdDraw.filledSquare(x + 0.45, y + 0.45, 0.5);
+        return 2;
+    }
+
+    //used to fill in red squares
+    public static int fillRedAgent(double x, double y) {
+        StdDraw.setPenColor(StdDraw.RED);
+        StdDraw.filledSquare(x + 0.45, y + 0.45, 0.5);
+        return 1;
+    }
+
+    //used to fill in white empty squares
+    public static int fillEmpty(double x, double y) {
+        StdDraw.setPenColor(StdDraw.WHITE);
+        StdDraw.filledSquare(x + 0.45, y + 0.45, 0.5);
+        return 0;
+    }
+
+    public static void initGrid(int[][] grid) {
+        for (int i = 0; i < grid.length; ++i) {
+            for (int n = 0; n < grid[0].length; ++n) {
+                grid[i][n] = 0;
+            }
+        }
+    }
+
+    public static void drawGrid(int[][] grid) {
+        StdDraw.clear();
+        for (int i = 0; i < grid.length; ++i) {
+            for (int j = 0; j < grid[0].length; ++j) {
+                if (grid[i][j] == 0) {
+                    fillEmpty(i, j);
+                }
+                if (grid[i][j] == 1) {
+                    fillBlueAgent(i, j);
+
+                }
+                if (grid[i][j] == 2) {
+                    fillRedAgent(i, j);
+                }
+            }
+        }
+    }
+
+
+    public static void main(String[] args) {
+        StdDraw.enableDoubleBuffering();
+        //the parameters that can be changed before each run
+        int pause = 40;
+        int size = 30;
+        double similar = 0.2;
+        double red = 0.50;
+        double empty = 0.1;
+        double blue = 0.50;
+
+        int test = 0;
+        boolean run = true;
+        int[][] grid = new int[size][size];
+        int[][] unsat = new int[size][size];
+        int[][] blank = new int[size][size];
+        int redtot = 0;
+        int bluetot = 0;
+        int emptytot;
+
+        //initializes the entire array
+        initGrid(grid);
+        initGrid(unsat);
+        initGrid(blank);
+
+        int x = 0;
+        int y = 0;
+        StdDraw.setXscale(0, size);
+        StdDraw.setYscale(0, size);
+        StdDraw.setPenColor(StdDraw.BLACK);
+
+        //draws the vertical lines
+        for (int i = 0; i < size; ++i) {
+            StdDraw.line(i, 0, i, size);
+            ++x;
+        }
+
+        //draws the horizontal lines
+        for (int i = 0; i < size; ++i) {
+            StdDraw.line(0, i, size, i);
+            ++y;
+        }
+
+        //randomly fills in the red squares and counts the number of them
+        for (int i = 0; i < red * size * size; ++i) {
+            int randomx = StdRandom.uniform(0, size);
+            int randomy = StdRandom.uniform(0, size);
+            fillRedAgent(randomx, randomy);
+            grid[randomx][randomy] = 1;
+            ++redtot;
+        }
+
+        //randomly fills in the blue squares and counts the number of them
+        for (int n = 0; n < blue * size * size; ++n) {
+            int randomx = StdRandom.uniform(0, size);
+            int randomy = StdRandom.uniform(0, size);
+            if (grid[randomx][randomy] == 0) {
+                fillBlueAgent(randomx, randomy);
+                grid[randomx][randomy] = 2;
+                ++bluetot;
+            } else {
+                --n;
+            }
+        }
+
+        //prints out the number of empty, red, and blue squares
+        StdDraw.show();
+        emptytot = (size * size) - (redtot + bluetot);
+        StdOut.println("Empty: " + emptytot);
+        StdOut.println("Red: " + redtot);
+        StdOut.println("Blue: " + bluetot);
+
+        int round = 0;
+        int randx = 0;
+        int randy = 0;
+        double sat = 0;
+        int tot = 0;
+
+        while (run) {
+            sat = 0;
+            tot = 0;
+            for (int x1 = 0; x1 < size; ++x1) {
+                for (int y1 = 0; y1 < size; ++y1) {
+                    if (x1 >= 0 && x1 < grid.length && y1 >= 0 && y1 < grid.length && grid[x1][y1] != 0){
+                        tot++;
+                        if(checkSquare(grid, x1, y1)){sat++;}
+                        if (!checkSquare(grid, x1, y1) && grid[x1][y1] != 0) {
+                            while (true) {
+                                randx = StdRandom.uniform(0, size);
+                                randy = StdRandom.uniform(0, size);
+                                if (grid[randx][randy] == 0) {
+                                    grid[randx][randy] = grid[x1][y1];
+                                    grid[x1][y1] = 0;
+                                 break;
+                                }
+                            }
+
+
+                        }
+
+
+                    }
+                }
+            }
+
+            round++;
+            StdDraw.pause(300);
+            StdDraw.show();
+            drawGrid(grid);
+            StdOut.println(round);
+            StdOut.println("% satisfied = " + (sat / tot));
+            if (sat / tot == 1){
+                StdOut.println("Satisfaction reached");
+                break;
+            }
+
+        }
+    }
+}
+
+
+
+
+
+
+
