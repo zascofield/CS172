@@ -1,0 +1,156 @@
+/**
+ * The Sudoku solver.
+ *
+ * @author PUT THE FIRST NAME HERE
+ * @author PUT THE SECOND NAME HERE
+ */
+public class Sudoku {
+
+    /** Prints the solution to the puzzle in the specified directory. */
+    public static void main(String[] args) {
+        String puzzle = new In("sudoku1.txt").readAll();
+        Square[][] grid = createSquares(puzzle);
+        solve(grid);
+        StdOut.println(toString(grid));
+    }
+
+    /** Returns a new Location object with the specified row and column. */
+    static Location createLocation(int r, int c) {
+        Location l = new Location();
+        l.row = r;
+        l.column = c;
+        return l;
+    }
+
+    /** Returns an array of the eight Locations in the same row as here. */
+    static Location[] findRow(Location here) {
+        Location[] row = new Location[8];
+        int c = 0;
+        for (int i = 0; i < 9;) {
+                if (i != here.column) {
+                    row[c] = createLocation(here.row, i);
+                    c++;
+                }
+                i++;
+        }
+        return row;
+    }
+
+    /** Returns an array of the eight Locations in the same column as here. */
+    static Location[] findColumn(Location here) {
+        Location[] col = new Location[8];
+        int c = 0;
+        for (int i = 0; i < 9;) {
+            if (i != here.row) {
+                col[c] = createLocation(i, here.column);
+                c++;
+            }
+            i++;
+        }
+        return col;
+    }
+
+    /** Returns an array of the eight Locations in the same 3x3 block as here. */
+    static Location[] findBlock(Location here) {
+        System.out.printf("here.row %d, here.column %d\n", here.row, here.column);
+        int row = here.row - here.row%3;
+        int column = here.column - here.column%3;
+        Location[] block = new Location[8];
+        StdOut.println("row = " + row);
+        StdOut.println("column = " + column);
+        int c = 0;
+        for (int i = row; i < row+3; i++) {
+            for (int j = column; j < column+3; j++) {
+                if (!(j == here.column && i == here.row)) {
+                    block[c] = createLocation(i, j);
+                    StdOut.printf("r = %d, c = %d\n", block[c].row, block[c].column);
+                    c++;
+                }
+            }
+
+        }
+        return block;
+    }
+
+    /**
+     * Returns a 9x9 array of Squares, each of which has value 0 and knows about the other squares in its row,
+     * column, and block.
+     */
+    static Square[][] createSquares() {
+        Square[][] s = new Square[9][9];
+        for(int i = 0; i<9; i++) {
+            for(int j = 0; j<9; j++) {
+                Square newS = new Square();
+                newS.value = 0;
+                s[i][j] = newS;
+            }
+
+        }
+        for(int i = 0; i<9; i++) {
+            for(int j = 0; j<9; j++) {
+                // row
+                Square[] rowS = new Square[8];
+                int index;
+                Location[] row = findRow(createLocation(i, j));
+                for(Location here: row) {
+                    rowS[index++] = s.[here.row][here.column];
+                }
+                s[i][j].row = rowS;
+               
+
+
+            }
+
+        }
+
+
+        return s;
+    }
+
+    /** Returns a String representing grid, showing the numbers (or . for squares with value 0). */
+    static String toString(Square[][] grid) {
+        // TODO You have to write this
+        return null;
+    }
+
+    /**
+     * Returns a 9x9 array of Squares, each of which has value 0 and knows about the other squares in its row,
+     * column, and block. Any numbers in diagram are filled in to the grid; empty squares should be given as
+     * periods.
+     */
+    static Square[][] createSquares(String diagram) {
+        // TODO You have to write this
+        return null;
+    }
+
+    /**
+     * Returns a boolean array of length 10. For each digit, the corresponding entry in the array is true
+     * if that number does not appear elsewhere in s's row, column, or block.
+     */
+    static boolean[] findValidNumbers(Square s) {
+        // TODO You have to write this
+//        for (int i = 0; i < 8; ++i) {
+//            if (Square.row[i].value != 0)
+//                if (Square.column[i].value != 0)
+//                    if (Square.block[i].value != 0)
+//        }
+        return null;
+    }
+
+    /**
+     * Returns true if grid can be solved. If so, grid is modified to fill in that solution.
+     */
+    static boolean solve(Square[][] grid) {
+        // TODO You have to write this
+        // Here's an outline of the algorithm:
+        // for each square
+        //     if its value is 0
+        //         for each valid number that could be filled in
+        //             if you can solve the rest of the grid
+        //                 return true
+        //         nothing worked: set value back to 0 and return false
+        // no squares left to fill in: return true
+        return true;
+    }
+
+}
