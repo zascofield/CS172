@@ -1,0 +1,99 @@
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class Board {
+
+    private char[][] grid = new char[8][8];
+    private char turn;
+    private int x;
+    private int y;
+    private ArrayList<int[]> destinationSquares;
+
+    public Board() {
+        //pre-sets the board with the pieces on the outside, and the first turn is given to black
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
+                if (x > 0 && x < 7 && (y == 0 || y == 7)) {
+                    grid[x][y] = 'B';
+                } else if (y == 0 || y == 7 || x != 0 && x != 7) {
+                    grid[x][y] = 'V';
+                } else {
+                    grid[x][y] = 'W';
+                }
+            }
+        }
+        turn = 'B';
+        x = -1;
+        y = -1;
+        destinationSquares = new ArrayList(64);
+        StdDraw.setScale(-0.5, 7.5);
+        StdDraw.enableDoubleBuffering();
+    }
+
+    public ArrayList<int[]> getDestinationSquares() {
+        return this.destinationSquares;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void draw() {
+        StdDraw.clear();
+        StdDraw.square(0.5, 0.5, 0.8);
+
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
+                StdDraw.setPenColor(StdDraw.GRAY);
+                StdDraw.filledSquare(x, y, 0.5);
+                StdDraw.setPenColor(StdDraw.BLACK);
+                StdDraw.filledSquare(x, y, 0.5);
+                if (grid[x][y] == 'W') {
+                    StdDraw.setPenColor(StdDraw.WHITE);
+                    StdDraw.filledCircle(x, y, 0.4);
+                } else if (grid[x][y] == 'B') {
+                    StdDraw.setPenColor(StdDraw.BLACK);
+                    StdDraw.filledCircle(x, y, 0.4);
+                }
+            }
+        }
+
+        if (x != -1) {
+            if (grid[x][y] != 'V') {
+                StdDraw.setPenColor(Color.RED);
+                StdDraw.circle(x, y, 0.42);
+            }
+            this.calculateSquares();
+        }
+        StdDraw.show();
+    }
+
+    //counts number of filled squares in the horizontal direction
+    public int countX (int x, int y) {
+        int xcount = 0;
+        for (int i = 0; i < 8; i++) {
+            if (grid[i][y] != 'V') {
+                xcount++;
+            }
+        }
+        return xcount;
+    }
+
+    //counts number of filled squares in the vertical direction
+    public int countY (int x, int y) {
+        int ycount = 0;
+        for (int i = 0; i < 8; i++) {
+            if (grid[x][i] != 'V') {
+                ycount++;
+            }
+        }
+        return ycount;
+    }
+
+
+}
