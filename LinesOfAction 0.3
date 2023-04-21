@@ -1,0 +1,22 @@
+public class LinesOfAction {
+
+    public LinesOfAction() {}
+
+    public static void main(String[] unused) {
+        Board b = new Board();
+        b.draw();
+
+        while(!b.blackWon() && !b.whiteWon()) {
+            b.handleMouseClick();
+        }
+
+        if (b.blackWon() && b.whiteWon()) {
+            StdOut.println("The game ended in a TIE");
+        } else if (b.blackWon()) {
+            StdOut.println("BLACK WINS!");
+        } else {
+            StdOut.println("WHITE WINS!");
+        }
+
+    }
+}
