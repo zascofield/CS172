@@ -1,0 +1,171 @@
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+
+class BoardTest {
+    BoardTest() {
+    }
+
+    @Test
+    void countX() {
+        Board b = new Board();
+        Assertions.assertEquals(6, b.countX(4, 0));
+        Assertions.assertEquals(2, b.countX(4, 1));
+    }
+
+    @Test
+    void countY() {
+        Board b = new Board();
+        Assertions.assertEquals(6, b.countY(0, 4));
+        Assertions.assertEquals(2, b.countY(4, 0));
+    }
+
+    @Test
+    void countDiagonal1() {
+        Board b = new Board();
+        Assertions.assertEquals(2, b.countDiagonal1(4, 1));
+        Assertions.assertEquals(2, b.countDiagonal1(1, 4));
+        Assertions.assertEquals(0, b.countDiagonal1(1, 1));
+    }
+
+    @Test
+    void countDiagonal2() {
+        Board b = new Board();
+        Assertions.assertEquals(2, b.countDiagonal2(4, 1));
+        Assertions.assertEquals(2, b.countDiagonal2(1, 4));
+        Assertions.assertEquals(2, b.countDiagonal2(1, 1));
+        Assertions.assertEquals(0, b.countDiagonal2(1, 6));
+    }
+
+    @Test
+    void XYMoves() {
+        Board b = new Board();
+        b.setX(1);
+        b.setY(0);
+        b.XYMove(6, 2);
+        ArrayList<int[]> destination = b.getDestinationSquares();
+        Assertions.assertEquals(2, destination.size());
+        int[] p1 = new int[]{7, 0};
+        boolean found = false;
+        Iterator var = destination.iterator();
+
+        while(var.hasNext()) {
+            int[] p = (int[])var.next();
+            if (Arrays.equals(p, p1)) {
+                found = true;
+                break;
+            }
+        }
+
+        Assertions.assertTrue(found);
+        int[] p2 = new int[]{1, 2};
+        Iterator var1 = destination.iterator();
+
+        while(var1.hasNext()) {
+            int[] p = (int[])var1.next();
+            if (Arrays.equals(p, p2)) {
+                found = true;
+                break;
+            }
+        }
+
+        Assertions.assertTrue(found);
+    }
+
+    @Test
+    void diagonalMoves() {
+        Board b = new Board();
+        b.setX(1);
+        b.setY(0);
+        b.diagonalMove(2, 2);
+        ArrayList<int[]> destination = b.getDestinationSquares();
+        Assertions.assertEquals(1, destination.size());
+        int[] p1 = new int[]{3, 2};
+        boolean found = false;
+        Iterator var = destination.iterator();
+
+        while(var.hasNext()) {
+            int[] p = (int[])var.next();
+            if (Arrays.equals(p, p1)) {
+                found = true;
+                break;
+            }
+        }
+
+        Assertions.assertTrue(found);
+    }
+
+    @Test
+    void whiteHasWon() {
+        Board b = new Board();
+        Assertions.assertFalse(b.whiteWon());
+        int[] start = new int[]{0, 1};
+        int[] dest = new int[]{6, 1};
+        b.movePiece(start, dest);
+        start[0] = 0;
+        start[1] = 2;
+        dest[0] = 6;
+        dest[1] = 2;
+        b.movePiece(start, dest);
+        start[0] = 0;
+        start[1] = 3;
+        dest[0] = 6;
+        dest[1] = 3;
+        b.movePiece(start, dest);
+        start[0] = 0;
+        start[1] = 4;
+        dest[0] = 6;
+        dest[1] = 4;
+        b.movePiece(start, dest);
+        start[0] = 0;
+        start[1] = 5;
+        dest[0] = 6;
+        dest[1] = 5;
+        b.movePiece(start, dest);
+        start[0] = 0;
+        start[1] = 6;
+        dest[0] = 6;
+        dest[1] = 6;
+        b.movePiece(start, dest);
+        Assertions.assertTrue(b.whiteWon());
+        Assertions.assertFalse(b.blackWon());
+    }
+
+    @Test
+    void blackHasWon() {
+        Board b = new Board();
+        Assertions.assertFalse(b.blackWon());
+        int[] start = new int[]{1, 0};
+        int[] dest = new int[]{1, 6};
+        b.movePiece(start, dest);
+        start[0] = 2;
+        start[1] = 0;
+        dest[0] = 2;
+        dest[1] = 6;
+        b.movePiece(start, dest);
+        start[0] = 3;
+        start[1] = 0;
+        dest[0] = 3;
+        dest[1] = 6;
+        b.movePiece(start, dest);
+        start[0] = 4;
+        start[1] = 0;
+        dest[0] = 4;
+        dest[1] = 6;
+        b.movePiece(start, dest);
+        start[0] = 5;
+        start[1] = 0;
+        dest[0] = 5;
+        dest[1] = 6;
+        b.movePiece(start, dest);
+        start[0] = 6;
+        start[1] = 0;
+        dest[0] = 6;
+        dest[1] = 6;
+        b.movePiece(start, dest);
+        Assertions.assertTrue(b.blackWon());
+        Assertions.assertFalse(b.whiteWon());
+    }
+}
